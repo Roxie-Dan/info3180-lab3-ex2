@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block main %}
+<link rel="stylesheet" href="app.css">
+<h1 class="page-header">Contact Form</h1>
+<p class="lead">Fill in this form to contact the site owners <br></p>
+<form name ="sendit" action="{{url_for('contact')}}" method="post">
+	  <div><p class="tit">Name:<span class="req">[Required]</span><br></p>
+			<p class = "caption">Please eter your full name</p>
+  			<input type="text" name="name" id="name"> </input><br>
+  	</div>
+  	<div><p class="tit">E-mail:<span class="req">[Required]</span><br></p>
+  			<p class = "caption"> Please enter your e-mail address </p>
+  			<input type="email" name="email" id="email"></input> <br>
+  	</div>
+  	<div><p class="tit"> Subject <span class="req">[Required]</span> <br></p>
+  			<p class = "caption"> Please enter the subject for your message </p>
+  			<input type="text" name="subject" id="subject"></input> <br>
+  	</div>
+  	<div id = "mess"><p class="tit"> Message <span class="req">[Required]</span> <br></p>
+  			<p class = "caption"> Please enter the message you would like to send.</p>
+  			<input type="text" name="msg" id="msg"></input><br>
+  	</div>
+  	<input class="btn" type="submit"></input>
+</form>
+{% endblock %}

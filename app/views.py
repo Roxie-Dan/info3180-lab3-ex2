@@ -6,7 +6,9 @@ This file creates your application.
 """
 
 from app import app
-from flask import render_template, request, redirect, url_for
+import smtplib
+
+from flask import render_template, request, redirect, url_for, flash
 
 
 ###
@@ -24,6 +26,40 @@ def about():
     """Render the website's about page."""
     return render_template('about.html', name="Mary Jane")
 
+@app.route('/contact', methods=['POST', 'Get'])
+def contact():
+    """Render website's home page."""
+    if request.method == 'POST':
+        from_name = request.form['name']
+        from_email = request.form['email']
+        subject = request.form['subject']
+        msg = request.form['msg']
+        send_email(from_name, from_email, subject, msg)
+        flash('message sent')
+        return redirect(url_for('about'))
+    return render_template('contact.html')
+    
+
+def send_email(from_name, from_email, subject, msg):
+    to_addr = 'r.m.danielle@hotmail.com'
+    to_name = 'Roxann Mowatt'
+    message = """From: {} <{}>
+    To: {} <{}> 
+    Subject: {}
+    {}
+    """ 
+    message_to_send = message.format(from_name,from_email,to_name,
+    to_addr,subject,msg)
+    # Credentials (if needed)
+    username = 'r.d.mowatt@gmail.com'
+    password = 'gkvehautefkenpph'
+    # The actual mail send
+    server = smtplib.SMTP('smtp.gmail.com:587')
+    server.starttls()
+    server.login(username, password)
+    server.sendmail(from_email, to_addr, message_to_send)
+    server.quit()
+
 
 ###
 # The functions below should be applicable to all Flask apps.
@@ -34,7 +70,7 @@ def send_text_file(file_name):
     """Send your static text file."""
     file_dot_text = file_name + '.txt'
     return app.send_static_file(file_dot_text)
-
+    
 
 @app.after_request
 def add_header(response):
